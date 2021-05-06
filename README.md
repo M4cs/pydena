@@ -18,6 +18,13 @@ cd pydena
 python3 setup.py install
 ```
 
+# Roadmap
+
+- [X] IPFS API
+- [X] Accounts API
+- [X] DNA API
+- [ ] Blockchain API (Partially Complete)
+
 # Usage
 
 **Initialize your API:**
