@@ -365,3 +365,105 @@ class API(object):
         if raw:
             return res.json()
         return res.json().get('result')
+
+    def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None):
+        params = {
+            'from': from_,
+            'to': to,
+            'maxFee': max_fee,
+            'amount': str(amount)
+        }
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_sendTransaction', [params])
+        return res.json().get('result')
+
+    def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None):
+        params = {
+            'to': to,
+            'amount': amount
+        }
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_sendInvite', [params])
+        return res.json().get('result')
+    
+    def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None):
+        params = {
+            'to': to
+        }
+        if key:
+            params['key'] = key
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_activateInvite', [params])
+        return res.json().get('result')
+
+    def becomeOnline(self, nonce: int = None, epoch: int = None):
+        params = {}
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_becomeOnline', [params])
+        return res.json().get('result')
+
+    def becomeOffline(self, nonce: int = None, epoch: int = None):
+        params = {}
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_becomeOffline', [params])
+        return res.json().get('result')
+
+    def delegate(self, to: str, nonce: int = None, epoch: int = None):
+        params = {
+            'to': to
+        }
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_delegate', [params])
+        return res.json().get('result')
+
+    def undelegate(self,nonce: int = None, epoch: int = None):
+        params = {}
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_delegate', [params])
+        return res.json().get('result')
+    
+    def killDelegator(self, to: str, nonce: int = None, epoch: int = None):
+        params = {
+            'to': to
+        }
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_killDelegator', [params])
+        return res.json().get('result')
+
+    def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None):
+        params = {
+            'from': from_,
+            'to': to,
+            'maxFee': max_fee,
+            'type': 11
+        }
+        if nonce:
+            params['nonce'] = nonce
+        if epoch:
+            params['epoch'] = epoch
+        res = self._request('dna_sendTransaction', [params])
+        return res.json().get('result')
