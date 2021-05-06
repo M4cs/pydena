@@ -33,17 +33,22 @@ python3 setup.py install
 ```py
 from pydena import API
 
+# Local Node with No API Key on http://localhost:9009
+api = API()
+
+# Local Node with API Key
+api = API(apikey='YOUR-API-KEY')
+
+# Remote node with API Key
 api = API('http://localhost:9999', 'YOUR-API-KEY')
-```
 
-**Use the provided API calls:**
-
-```py
 # Get Coinbase Address:
 api.getCoinbaseAddress()
 
 # Get Last Block:
 api.getLastBlock()
+
+# See all in documentation below!
 ```
 
 ### View the official documentation [here](https://m4cs.github.io/pydena/)
