@@ -1,0 +1,1490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>pydena.api.api API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pydena.api.api</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from requests import Session
+from pydena.models import AddressTxns, Block, Mempool, Sync, Transaction, BurntCoins, FlipKeyword, Identity, State, Accounts
+
+class API(object):
+    def __init__(self, host=&#34;http://localhost:9009&#34;, apikey=&#34;&#34;):
+        self.host = host
+        if not host.startswith(&#39;http://&#39;):
+            self.host = &#39;http://&#39; + host
+        self.apikey = apikey
+        self.session = Session()
+        self.base_payload = {
+            &#39;params&#39;: [],
+            &#39;id&#39;: 1,
+            &#39;key&#39;: apikey,
+            &#39;method&#39;: &#39;&#39;
+        }
+        self.current_id = 1
+    
+    def _request(self, method, params=[]):
+        payload = self.base_payload.copy()
+        payload[&#39;id&#39;] = self.current_id
+        payload[&#39;params&#39;] = params
+        payload[&#39;method&#39;] = method
+        res = self.session.get(self.host, json=payload, timeout=30)
+        self.current_id += 1
+        return res
+
+    def getLastBlock(self, raw=False):
+        &#34;&#34;&#34;Returns last block from node
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            block(Block): A block model holding block info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_lastBlock&#39;)
+        if raw:
+            return res.json()
+        return Block(**res.json().get(&#39;result&#39;))
+    
+    def getBlockByHeight(self, height: int, raw=False):
+        &#34;&#34;&#34;Returns block by height
+
+        Parameters:
+            height(int): Height of block to search for
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            block(Block): A block model holding block info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_blockAt&#39;, [height])
+        if raw:
+            return res.json()
+        return Block(**res.json().get(&#39;result&#39;))
+
+    def getBlockByHash(self, hash: str, raw=False):
+        &#34;&#34;&#34;Returns block by hash
+
+        Parameters:
+            hash(int): Hash of block to search for
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            block(Block): A block model holding block info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_block&#39;, [hash])
+        if raw:
+            return res.json()
+        return Block(**res.json().get(&#39;result&#39;))
+
+    def getTransaction(self, hash: str, raw=False):
+        &#34;&#34;&#34;Gets transacation by txn hash
+
+        Parameters:
+            hash(int): Hash of txn to search for
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            txn(Transaction): A transaction model holding transaction info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_transaction&#39;, [hash])
+        if raw:
+            return res.json()
+        return Transaction(**res.json().get(&#39;result&#39;))
+
+    def getMempool(self, raw=False):
+        &#34;&#34;&#34;Gets mempool information
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            txn(Transaction): A mempool model holding mempool info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_mempool&#39;)
+        if raw:
+            return res.json()
+        return Mempool(**res.json().get(&#39;result&#39;))
+
+    def checkSync(self, raw=False):
+        &#34;&#34;&#34;Gets syncronization information
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            sync(Sync): A sync model holding sync info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_syncing&#39;)
+        if raw:
+            return res.json()
+        return Sync(**res.json().get(&#39;result&#39;))
+
+    def getAddressTxns(self, address: str, count: int =1, token: str =None, raw=False):
+        &#34;&#34;&#34;Gets transactions for a certain address
+
+        Parameters:
+            address(str): Address to query by
+            count(int): Count of transacations to return. Default: 1
+            token(str1): Token to query by. Default: None
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            txns(AddressTxns): A AddressTxns model holding txn info by address
+        
+        &#34;&#34;&#34;
+        params = {&#39;address&#39;: address, &#39;count&#39;: count}
+        if token:
+            params[&#39;token&#39;] = token
+        res = self._request(&#39;bcn_transactions&#39;, [params])
+        if raw:
+            return res.json()
+        return AddressTxns(**res.json().get(&#39;result&#39;))
+
+    def getPendingAddressTxns(self, address: str, raw=False):
+        &#34;&#34;&#34;Gets pending address transactions
+
+        Parameters:
+            address(str): Address to query by
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            txns(AddressTxns): A AddressTxns model holding txn info by address
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_pendingTransactions&#39;, [{&#39;address&#39;: address}])
+        if raw:
+            return res.json()
+        return AddressTxns(**res.json().get(&#39;result&#39;))
+
+    def getBurntCoins(self, raw=False):
+        &#34;&#34;&#34;Gets burnt coins for your coinbase address
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            burntcoins(BurntCoins): A BurntCoins model holding burntcoin info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_burntCoins&#39;)
+        if raw:
+            return res.json()
+        return BurntCoins(**res.json().get(&#39;result&#39;))
+
+    def getFlipKeyword(self, index: int, raw=False):
+        &#34;&#34;&#34;Gets flip keywords by index
+
+        Parameters:
+            index(int): Index of flip keyword
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            fkw(FlipKeyword): A FlipKeyword model holding keyword info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_keyWord&#39;, [index])
+        if raw:
+            return res.json()
+        return FlipKeyword(**res.json().get(&#39;result&#39;))
+
+    def getIdentities(self, raw=False):
+        &#34;&#34;&#34;Gets DNA Identities
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            identities(List[Identity]): A list of Identity models
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;dna_identities&#39;)
+        if raw:
+            return res.json()
+        return [Identity(**r) for r in res.json().get(&#39;result&#39;)]
+
+    def getIdentity(self, address: str, raw=False):
+        &#34;&#34;&#34;Gets an address&#39; identity
+
+        Parameters:
+            address(str): Address to query by
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            identity(Identity): Address&#39; Identity model
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;dna_identity&#39;, [address])
+        if raw:
+            return res.json()
+        return Identity(**res.json().get(&#39;result&#39;))
+
+    def getCurrentProcess(self, raw=False):
+        &#34;&#34;&#34;Gets flip keywords by index
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            state(State): A State model holding state information
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;dna_state&#39;)
+        if raw:
+            return res.json()
+        return State(**res.json().get(&#39;result&#39;))
+    
+    def getCoinbaseAddress(self, raw=False):
+        &#34;&#34;&#34;Gets coinbase address
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            addr(str): Your coinbase address
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;dna_getCoinbaseAddr&#39;)
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+
+    def calculateIpfsCid(self, data: str, raw=False):
+        &#34;&#34;&#34;Calculate IPFS CID
+
+        Parameters:
+            data(str): Data to calcualte IPFS CID for
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            data(dict): CID of calculated data
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;ipfs_cid&#39;, [data])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+    
+    def addDataToIpfs(self, data: str, pin: bool = False, raw=False):
+        &#34;&#34;&#34;Add IPFS Data
+
+        Parameters:
+            data(str): Data to add to IPFS
+            pin(bool): Pin to IPFS or not. Default: false
+            raw(bool1): Return in JSON format. Default: false
+
+        Returns:
+            data(dict): CID of posted data
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;ipfs_add&#39;, [data, pin])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+
+    def getIpfsData(self, cid: str, raw=False):
+        &#34;&#34;&#34;Gets IPFS data
+
+        Parameters:
+            cid(str): CID of IPFS data
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            data(dict): A dictionary holding ipfs data
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;ipfs_get&#39;, [cid])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+
+    def getAccounts(self, raw=False):
+        &#34;&#34;&#34;Gets your unlocked accounts
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            accounts(Accounts): An accounts model holding account data
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;account_list&#39;)
+        if raw:
+            return res.json()
+        return Accounts(**res.json())
+    
+    def unlockAccount(self, address: str, password: str=None, time: int=None, raw=False):
+        &#34;&#34;&#34;Unlock an account
+
+        Parameters:
+            address(str): Address to unlock
+            password(str1): Password of address
+            time(int): Time to unlock
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            account(str): An account string
+        
+        &#34;&#34;&#34;
+        params = [address]
+        if password:
+            params.append(password)
+        if time:
+            params.append(time)
+        res = self._request(&#39;account_unlock&#39;, params)
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+    
+    def addAccount(self, password: str, raw=False):
+        &#34;&#34;&#34;Add an account
+
+        Parameters:
+            password(str): Password of account
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            account(str): An account string
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;account_create&#39;, [password])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+
+    def lockAccount(self, address: str, raw=False):
+        &#34;&#34;&#34;Lock an account
+
+        Parameters:
+            address(str): Address of account
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            account(str): An account string
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;account_lock&#39;, [address])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pydena.api.api.API"><code class="flex name class">
+<span>class <span class="ident">API</span></span>
+<span>(</span><span>host='http://localhost:9009', apikey='')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class API(object):
+    def __init__(self, host=&#34;http://localhost:9009&#34;, apikey=&#34;&#34;):
+        self.host = host
+        if not host.startswith(&#39;http://&#39;):
+            self.host = &#39;http://&#39; + host
+        self.apikey = apikey
+        self.session = Session()
+        self.base_payload = {
+            &#39;params&#39;: [],
+            &#39;id&#39;: 1,
+            &#39;key&#39;: apikey,
+            &#39;method&#39;: &#39;&#39;
+        }
+        self.current_id = 1
+    
+    def _request(self, method, params=[]):
+        payload = self.base_payload.copy()
+        payload[&#39;id&#39;] = self.current_id
+        payload[&#39;params&#39;] = params
+        payload[&#39;method&#39;] = method
+        res = self.session.get(self.host, json=payload, timeout=30)
+        self.current_id += 1
+        return res
+
+    def getLastBlock(self, raw=False):
+        &#34;&#34;&#34;Returns last block from node
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            block(Block): A block model holding block info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_lastBlock&#39;)
+        if raw:
+            return res.json()
+        return Block(**res.json().get(&#39;result&#39;))
+    
+    def getBlockByHeight(self, height: int, raw=False):
+        &#34;&#34;&#34;Returns block by height
+
+        Parameters:
+            height(int): Height of block to search for
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            block(Block): A block model holding block info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_blockAt&#39;, [height])
+        if raw:
+            return res.json()
+        return Block(**res.json().get(&#39;result&#39;))
+
+    def getBlockByHash(self, hash: str, raw=False):
+        &#34;&#34;&#34;Returns block by hash
+
+        Parameters:
+            hash(int): Hash of block to search for
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            block(Block): A block model holding block info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_block&#39;, [hash])
+        if raw:
+            return res.json()
+        return Block(**res.json().get(&#39;result&#39;))
+
+    def getTransaction(self, hash: str, raw=False):
+        &#34;&#34;&#34;Gets transacation by txn hash
+
+        Parameters:
+            hash(int): Hash of txn to search for
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            txn(Transaction): A transaction model holding transaction info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_transaction&#39;, [hash])
+        if raw:
+            return res.json()
+        return Transaction(**res.json().get(&#39;result&#39;))
+
+    def getMempool(self, raw=False):
+        &#34;&#34;&#34;Gets mempool information
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            txn(Transaction): A mempool model holding mempool info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_mempool&#39;)
+        if raw:
+            return res.json()
+        return Mempool(**res.json().get(&#39;result&#39;))
+
+    def checkSync(self, raw=False):
+        &#34;&#34;&#34;Gets syncronization information
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            sync(Sync): A sync model holding sync info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_syncing&#39;)
+        if raw:
+            return res.json()
+        return Sync(**res.json().get(&#39;result&#39;))
+
+    def getAddressTxns(self, address: str, count: int =1, token: str =None, raw=False):
+        &#34;&#34;&#34;Gets transactions for a certain address
+
+        Parameters:
+            address(str): Address to query by
+            count(int): Count of transacations to return. Default: 1
+            token(str1): Token to query by. Default: None
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            txns(AddressTxns): A AddressTxns model holding txn info by address
+        
+        &#34;&#34;&#34;
+        params = {&#39;address&#39;: address, &#39;count&#39;: count}
+        if token:
+            params[&#39;token&#39;] = token
+        res = self._request(&#39;bcn_transactions&#39;, [params])
+        if raw:
+            return res.json()
+        return AddressTxns(**res.json().get(&#39;result&#39;))
+
+    def getPendingAddressTxns(self, address: str, raw=False):
+        &#34;&#34;&#34;Gets pending address transactions
+
+        Parameters:
+            address(str): Address to query by
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            txns(AddressTxns): A AddressTxns model holding txn info by address
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_pendingTransactions&#39;, [{&#39;address&#39;: address}])
+        if raw:
+            return res.json()
+        return AddressTxns(**res.json().get(&#39;result&#39;))
+
+    def getBurntCoins(self, raw=False):
+        &#34;&#34;&#34;Gets burnt coins for your coinbase address
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            burntcoins(BurntCoins): A BurntCoins model holding burntcoin info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_burntCoins&#39;)
+        if raw:
+            return res.json()
+        return BurntCoins(**res.json().get(&#39;result&#39;))
+
+    def getFlipKeyword(self, index: int, raw=False):
+        &#34;&#34;&#34;Gets flip keywords by index
+
+        Parameters:
+            index(int): Index of flip keyword
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            fkw(FlipKeyword): A FlipKeyword model holding keyword info
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;bcn_keyWord&#39;, [index])
+        if raw:
+            return res.json()
+        return FlipKeyword(**res.json().get(&#39;result&#39;))
+
+    def getIdentities(self, raw=False):
+        &#34;&#34;&#34;Gets DNA Identities
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            identities(List[Identity]): A list of Identity models
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;dna_identities&#39;)
+        if raw:
+            return res.json()
+        return [Identity(**r) for r in res.json().get(&#39;result&#39;)]
+
+    def getIdentity(self, address: str, raw=False):
+        &#34;&#34;&#34;Gets an address&#39; identity
+
+        Parameters:
+            address(str): Address to query by
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            identity(Identity): Address&#39; Identity model
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;dna_identity&#39;, [address])
+        if raw:
+            return res.json()
+        return Identity(**res.json().get(&#39;result&#39;))
+
+    def getCurrentProcess(self, raw=False):
+        &#34;&#34;&#34;Gets flip keywords by index
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            state(State): A State model holding state information
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;dna_state&#39;)
+        if raw:
+            return res.json()
+        return State(**res.json().get(&#39;result&#39;))
+    
+    def getCoinbaseAddress(self, raw=False):
+        &#34;&#34;&#34;Gets coinbase address
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            addr(str): Your coinbase address
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;dna_getCoinbaseAddr&#39;)
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+
+    def calculateIpfsCid(self, data: str, raw=False):
+        &#34;&#34;&#34;Calculate IPFS CID
+
+        Parameters:
+            data(str): Data to calcualte IPFS CID for
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            data(dict): CID of calculated data
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;ipfs_cid&#39;, [data])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+    
+    def addDataToIpfs(self, data: str, pin: bool = False, raw=False):
+        &#34;&#34;&#34;Add IPFS Data
+
+        Parameters:
+            data(str): Data to add to IPFS
+            pin(bool): Pin to IPFS or not. Default: false
+            raw(bool1): Return in JSON format. Default: false
+
+        Returns:
+            data(dict): CID of posted data
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;ipfs_add&#39;, [data, pin])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+
+    def getIpfsData(self, cid: str, raw=False):
+        &#34;&#34;&#34;Gets IPFS data
+
+        Parameters:
+            cid(str): CID of IPFS data
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            data(dict): A dictionary holding ipfs data
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;ipfs_get&#39;, [cid])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+
+    def getAccounts(self, raw=False):
+        &#34;&#34;&#34;Gets your unlocked accounts
+
+        Parameters:
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            accounts(Accounts): An accounts model holding account data
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;account_list&#39;)
+        if raw:
+            return res.json()
+        return Accounts(**res.json())
+    
+    def unlockAccount(self, address: str, password: str=None, time: int=None, raw=False):
+        &#34;&#34;&#34;Unlock an account
+
+        Parameters:
+            address(str): Address to unlock
+            password(str1): Password of address
+            time(int): Time to unlock
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            account(str): An account string
+        
+        &#34;&#34;&#34;
+        params = [address]
+        if password:
+            params.append(password)
+        if time:
+            params.append(time)
+        res = self._request(&#39;account_unlock&#39;, params)
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+    
+    def addAccount(self, password: str, raw=False):
+        &#34;&#34;&#34;Add an account
+
+        Parameters:
+            password(str): Password of account
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            account(str): An account string
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;account_create&#39;, [password])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+
+    def lockAccount(self, address: str, raw=False):
+        &#34;&#34;&#34;Lock an account
+
+        Parameters:
+            address(str): Address of account
+            raw(bool): Return in JSON format. Default: false
+
+        Returns:
+            account(str): An account string
+        
+        &#34;&#34;&#34;
+        res = self._request(&#39;account_lock&#39;, [address])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pydena.api.api.API.addAccount"><code class="name flex">
+<span>def <span class="ident">addAccount</span></span>(<span>self, password: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add an account</p>
+<h2 id="parameters">Parameters</h2>
+<p>password(str): Password of account
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>account(str): An account string</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def addAccount(self, password: str, raw=False):
+    &#34;&#34;&#34;Add an account
+
+    Parameters:
+        password(str): Password of account
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        account(str): An account string
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;account_create&#39;, [password])
+    if raw:
+        return res.json()
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.addDataToIpfs"><code class="name flex">
+<span>def <span class="ident">addDataToIpfs</span></span>(<span>self, data: str, pin: bool = False, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add IPFS Data</p>
+<h2 id="parameters">Parameters</h2>
+<p>data(str): Data to add to IPFS
+pin(bool): Pin to IPFS or not. Default: false
+raw(bool1): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>data(dict): CID of posted data</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def addDataToIpfs(self, data: str, pin: bool = False, raw=False):
+    &#34;&#34;&#34;Add IPFS Data
+
+    Parameters:
+        data(str): Data to add to IPFS
+        pin(bool): Pin to IPFS or not. Default: false
+        raw(bool1): Return in JSON format. Default: false
+
+    Returns:
+        data(dict): CID of posted data
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;ipfs_add&#39;, [data, pin])
+    if raw:
+        return res.json()
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.calculateIpfsCid"><code class="name flex">
+<span>def <span class="ident">calculateIpfsCid</span></span>(<span>self, data: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate IPFS CID</p>
+<h2 id="parameters">Parameters</h2>
+<p>data(str): Data to calcualte IPFS CID for
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>data(dict): CID of calculated data</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculateIpfsCid(self, data: str, raw=False):
+    &#34;&#34;&#34;Calculate IPFS CID
+
+    Parameters:
+        data(str): Data to calcualte IPFS CID for
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        data(dict): CID of calculated data
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;ipfs_cid&#39;, [data])
+    if raw:
+        return res.json()
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.checkSync"><code class="name flex">
+<span>def <span class="ident">checkSync</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets syncronization information</p>
+<h2 id="parameters">Parameters</h2>
+<p>raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>sync(Sync): A sync model holding sync info</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def checkSync(self, raw=False):
+    &#34;&#34;&#34;Gets syncronization information
+
+    Parameters:
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        sync(Sync): A sync model holding sync info
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_syncing&#39;)
+    if raw:
+        return res.json()
+    return Sync(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getAccounts"><code class="name flex">
+<span>def <span class="ident">getAccounts</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets your unlocked accounts</p>
+<h2 id="parameters">Parameters</h2>
+<p>raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>accounts(Accounts): An accounts model holding account data</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getAccounts(self, raw=False):
+    &#34;&#34;&#34;Gets your unlocked accounts
+
+    Parameters:
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        accounts(Accounts): An accounts model holding account data
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;account_list&#39;)
+    if raw:
+        return res.json()
+    return Accounts(**res.json())</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getAddressTxns"><code class="name flex">
+<span>def <span class="ident">getAddressTxns</span></span>(<span>self, address: str, count: int = 1, token: str = None, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets transactions for a certain address</p>
+<h2 id="parameters">Parameters</h2>
+<p>address(str): Address to query by
+count(int): Count of transacations to return. Default: 1
+token(str1): Token to query by. Default: None
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>txns(AddressTxns): A AddressTxns model holding txn info by address</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getAddressTxns(self, address: str, count: int =1, token: str =None, raw=False):
+    &#34;&#34;&#34;Gets transactions for a certain address
+
+    Parameters:
+        address(str): Address to query by
+        count(int): Count of transacations to return. Default: 1
+        token(str1): Token to query by. Default: None
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        txns(AddressTxns): A AddressTxns model holding txn info by address
+    
+    &#34;&#34;&#34;
+    params = {&#39;address&#39;: address, &#39;count&#39;: count}
+    if token:
+        params[&#39;token&#39;] = token
+    res = self._request(&#39;bcn_transactions&#39;, [params])
+    if raw:
+        return res.json()
+    return AddressTxns(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getBlockByHash"><code class="name flex">
+<span>def <span class="ident">getBlockByHash</span></span>(<span>self, hash: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns block by hash</p>
+<h2 id="parameters">Parameters</h2>
+<p>hash(int): Hash of block to search for
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>block(Block): A block model holding block info</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getBlockByHash(self, hash: str, raw=False):
+    &#34;&#34;&#34;Returns block by hash
+
+    Parameters:
+        hash(int): Hash of block to search for
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        block(Block): A block model holding block info
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_block&#39;, [hash])
+    if raw:
+        return res.json()
+    return Block(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getBlockByHeight"><code class="name flex">
+<span>def <span class="ident">getBlockByHeight</span></span>(<span>self, height: int, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns block by height</p>
+<h2 id="parameters">Parameters</h2>
+<p>height(int): Height of block to search for
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>block(Block): A block model holding block info</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getBlockByHeight(self, height: int, raw=False):
+    &#34;&#34;&#34;Returns block by height
+
+    Parameters:
+        height(int): Height of block to search for
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        block(Block): A block model holding block info
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_blockAt&#39;, [height])
+    if raw:
+        return res.json()
+    return Block(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getBurntCoins"><code class="name flex">
+<span>def <span class="ident">getBurntCoins</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets burnt coins for your coinbase address</p>
+<h2 id="parameters">Parameters</h2>
+<p>raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>burntcoins(BurntCoins): A BurntCoins model holding burntcoin info</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getBurntCoins(self, raw=False):
+    &#34;&#34;&#34;Gets burnt coins for your coinbase address
+
+    Parameters:
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        burntcoins(BurntCoins): A BurntCoins model holding burntcoin info
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_burntCoins&#39;)
+    if raw:
+        return res.json()
+    return BurntCoins(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getCoinbaseAddress"><code class="name flex">
+<span>def <span class="ident">getCoinbaseAddress</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets coinbase address</p>
+<h2 id="parameters">Parameters</h2>
+<p>raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>addr(str): Your coinbase address</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getCoinbaseAddress(self, raw=False):
+    &#34;&#34;&#34;Gets coinbase address
+
+    Parameters:
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        addr(str): Your coinbase address
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;dna_getCoinbaseAddr&#39;)
+    if raw:
+        return res.json()
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getCurrentProcess"><code class="name flex">
+<span>def <span class="ident">getCurrentProcess</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets flip keywords by index</p>
+<h2 id="parameters">Parameters</h2>
+<p>raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>state(State): A State model holding state information</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getCurrentProcess(self, raw=False):
+    &#34;&#34;&#34;Gets flip keywords by index
+
+    Parameters:
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        state(State): A State model holding state information
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;dna_state&#39;)
+    if raw:
+        return res.json()
+    return State(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getFlipKeyword"><code class="name flex">
+<span>def <span class="ident">getFlipKeyword</span></span>(<span>self, index: int, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets flip keywords by index</p>
+<h2 id="parameters">Parameters</h2>
+<p>index(int): Index of flip keyword
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>fkw(FlipKeyword): A FlipKeyword model holding keyword info</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getFlipKeyword(self, index: int, raw=False):
+    &#34;&#34;&#34;Gets flip keywords by index
+
+    Parameters:
+        index(int): Index of flip keyword
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        fkw(FlipKeyword): A FlipKeyword model holding keyword info
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_keyWord&#39;, [index])
+    if raw:
+        return res.json()
+    return FlipKeyword(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getIdentities"><code class="name flex">
+<span>def <span class="ident">getIdentities</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets DNA Identities</p>
+<h2 id="parameters">Parameters</h2>
+<p>raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>identities(List[Identity]): A list of Identity models</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getIdentities(self, raw=False):
+    &#34;&#34;&#34;Gets DNA Identities
+
+    Parameters:
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        identities(List[Identity]): A list of Identity models
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;dna_identities&#39;)
+    if raw:
+        return res.json()
+    return [Identity(**r) for r in res.json().get(&#39;result&#39;)]</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getIdentity"><code class="name flex">
+<span>def <span class="ident">getIdentity</span></span>(<span>self, address: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets an address' identity</p>
+<h2 id="parameters">Parameters</h2>
+<p>address(str): Address to query by
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>identity(Identity): Address' Identity model</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getIdentity(self, address: str, raw=False):
+    &#34;&#34;&#34;Gets an address&#39; identity
+
+    Parameters:
+        address(str): Address to query by
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        identity(Identity): Address&#39; Identity model
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;dna_identity&#39;, [address])
+    if raw:
+        return res.json()
+    return Identity(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getIpfsData"><code class="name flex">
+<span>def <span class="ident">getIpfsData</span></span>(<span>self, cid: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets IPFS data</p>
+<h2 id="parameters">Parameters</h2>
+<p>cid(str): CID of IPFS data
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>data(dict): A dictionary holding ipfs data</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getIpfsData(self, cid: str, raw=False):
+    &#34;&#34;&#34;Gets IPFS data
+
+    Parameters:
+        cid(str): CID of IPFS data
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        data(dict): A dictionary holding ipfs data
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;ipfs_get&#39;, [cid])
+    if raw:
+        return res.json()
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getLastBlock"><code class="name flex">
+<span>def <span class="ident">getLastBlock</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns last block from node</p>
+<h2 id="parameters">Parameters</h2>
+<p>raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>block(Block): A block model holding block info</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getLastBlock(self, raw=False):
+    &#34;&#34;&#34;Returns last block from node
+
+    Parameters:
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        block(Block): A block model holding block info
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_lastBlock&#39;)
+    if raw:
+        return res.json()
+    return Block(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getMempool"><code class="name flex">
+<span>def <span class="ident">getMempool</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets mempool information</p>
+<h2 id="parameters">Parameters</h2>
+<p>raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>txn(Transaction): A mempool model holding mempool info</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getMempool(self, raw=False):
+    &#34;&#34;&#34;Gets mempool information
+
+    Parameters:
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        txn(Transaction): A mempool model holding mempool info
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_mempool&#39;)
+    if raw:
+        return res.json()
+    return Mempool(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getPendingAddressTxns"><code class="name flex">
+<span>def <span class="ident">getPendingAddressTxns</span></span>(<span>self, address: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets pending address transactions</p>
+<h2 id="parameters">Parameters</h2>
+<p>address(str): Address to query by
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>txns(AddressTxns): A AddressTxns model holding txn info by address</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getPendingAddressTxns(self, address: str, raw=False):
+    &#34;&#34;&#34;Gets pending address transactions
+
+    Parameters:
+        address(str): Address to query by
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        txns(AddressTxns): A AddressTxns model holding txn info by address
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_pendingTransactions&#39;, [{&#39;address&#39;: address}])
+    if raw:
+        return res.json()
+    return AddressTxns(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.getTransaction"><code class="name flex">
+<span>def <span class="ident">getTransaction</span></span>(<span>self, hash: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets transacation by txn hash</p>
+<h2 id="parameters">Parameters</h2>
+<p>hash(int): Hash of txn to search for
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>txn(Transaction): A transaction model holding transaction info</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getTransaction(self, hash: str, raw=False):
+    &#34;&#34;&#34;Gets transacation by txn hash
+
+    Parameters:
+        hash(int): Hash of txn to search for
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        txn(Transaction): A transaction model holding transaction info
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;bcn_transaction&#39;, [hash])
+    if raw:
+        return res.json()
+    return Transaction(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.lockAccount"><code class="name flex">
+<span>def <span class="ident">lockAccount</span></span>(<span>self, address: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lock an account</p>
+<h2 id="parameters">Parameters</h2>
+<p>address(str): Address of account
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>account(str): An account string</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lockAccount(self, address: str, raw=False):
+    &#34;&#34;&#34;Lock an account
+
+    Parameters:
+        address(str): Address of account
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        account(str): An account string
+    
+    &#34;&#34;&#34;
+    res = self._request(&#39;account_lock&#39;, [address])
+    if raw:
+        return res.json()
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.api.API.unlockAccount"><code class="name flex">
+<span>def <span class="ident">unlockAccount</span></span>(<span>self, address: str, password: str = None, time: int = None, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Unlock an account</p>
+<h2 id="parameters">Parameters</h2>
+<p>address(str): Address to unlock
+password(str1): Password of address
+time(int): Time to unlock
+raw(bool): Return in JSON format. Default: false</p>
+<h2 id="returns">Returns</h2>
+<p>account(str): An account string</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unlockAccount(self, address: str, password: str=None, time: int=None, raw=False):
+    &#34;&#34;&#34;Unlock an account
+
+    Parameters:
+        address(str): Address to unlock
+        password(str1): Password of address
+        time(int): Time to unlock
+        raw(bool): Return in JSON format. Default: false
+
+    Returns:
+        account(str): An account string
+    
+    &#34;&#34;&#34;
+    params = [address]
+    if password:
+        params.append(password)
+    if time:
+        params.append(time)
+    res = self._request(&#39;account_unlock&#39;, params)
+    if raw:
+        return res.json()
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pydena.api" href="index.html">pydena.api</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pydena.api.api.API" href="#pydena.api.api.API">API</a></code></h4>
+<ul class="">
+<li><code><a title="pydena.api.api.API.addAccount" href="#pydena.api.api.API.addAccount">addAccount</a></code></li>
+<li><code><a title="pydena.api.api.API.addDataToIpfs" href="#pydena.api.api.API.addDataToIpfs">addDataToIpfs</a></code></li>
+<li><code><a title="pydena.api.api.API.calculateIpfsCid" href="#pydena.api.api.API.calculateIpfsCid">calculateIpfsCid</a></code></li>
+<li><code><a title="pydena.api.api.API.checkSync" href="#pydena.api.api.API.checkSync">checkSync</a></code></li>
+<li><code><a title="pydena.api.api.API.getAccounts" href="#pydena.api.api.API.getAccounts">getAccounts</a></code></li>
+<li><code><a title="pydena.api.api.API.getAddressTxns" href="#pydena.api.api.API.getAddressTxns">getAddressTxns</a></code></li>
+<li><code><a title="pydena.api.api.API.getBlockByHash" href="#pydena.api.api.API.getBlockByHash">getBlockByHash</a></code></li>
+<li><code><a title="pydena.api.api.API.getBlockByHeight" href="#pydena.api.api.API.getBlockByHeight">getBlockByHeight</a></code></li>
+<li><code><a title="pydena.api.api.API.getBurntCoins" href="#pydena.api.api.API.getBurntCoins">getBurntCoins</a></code></li>
+<li><code><a title="pydena.api.api.API.getCoinbaseAddress" href="#pydena.api.api.API.getCoinbaseAddress">getCoinbaseAddress</a></code></li>
+<li><code><a title="pydena.api.api.API.getCurrentProcess" href="#pydena.api.api.API.getCurrentProcess">getCurrentProcess</a></code></li>
+<li><code><a title="pydena.api.api.API.getFlipKeyword" href="#pydena.api.api.API.getFlipKeyword">getFlipKeyword</a></code></li>
+<li><code><a title="pydena.api.api.API.getIdentities" href="#pydena.api.api.API.getIdentities">getIdentities</a></code></li>
+<li><code><a title="pydena.api.api.API.getIdentity" href="#pydena.api.api.API.getIdentity">getIdentity</a></code></li>
+<li><code><a title="pydena.api.api.API.getIpfsData" href="#pydena.api.api.API.getIpfsData">getIpfsData</a></code></li>
+<li><code><a title="pydena.api.api.API.getLastBlock" href="#pydena.api.api.API.getLastBlock">getLastBlock</a></code></li>
+<li><code><a title="pydena.api.api.API.getMempool" href="#pydena.api.api.API.getMempool">getMempool</a></code></li>
+<li><code><a title="pydena.api.api.API.getPendingAddressTxns" href="#pydena.api.api.API.getPendingAddressTxns">getPendingAddressTxns</a></code></li>
+<li><code><a title="pydena.api.api.API.getTransaction" href="#pydena.api.api.API.getTransaction">getTransaction</a></code></li>
+<li><code><a title="pydena.api.api.API.lockAccount" href="#pydena.api.api.API.lockAccount">lockAccount</a></code></li>
+<li><code><a title="pydena.api.api.API.unlockAccount" href="#pydena.api.api.API.unlockAccount">unlockAccount</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
