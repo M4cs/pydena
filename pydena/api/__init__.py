@@ -1,3 +1,5 @@
+from pydena.exceptions import RPCError
+from pydena.models.dna import CeremonyIntervals, Epoch, Profile, ProfileTxn, RandomInviteTxn
 from requests import Session
 from pydena.models import AddressTxns, Block, Mempool, Sync, Transaction, BurntCoins, FlipKeyword, Identity, State, Accounts
 
@@ -23,6 +25,8 @@ class API(object):
         payload['method'] = method
         res = self.session.get(self.host, json=payload, timeout=30)
         self.current_id += 1
+        if res.get('error'):
+            raise RPCError(res.json())
         return res
 
     def getLastBlock(self, raw=False):
@@ -366,7 +370,7 @@ class API(object):
             return res.json()
         return res.json().get('result')
 
-    def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None):
+    def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None, raw=False):
         params = {
             'from': from_,
             'to': to,
@@ -380,7 +384,7 @@ class API(object):
         res = self._request('dna_sendTransaction', [params])
         return res.json().get('result')
 
-    def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None):
+    def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None, raw=False):
         params = {
             'to': to,
             'amount': amount
@@ -392,7 +396,7 @@ class API(object):
         res = self._request('dna_sendInvite', [params])
         return res.json().get('result')
     
-    def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None):
+    def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None, raw=False):
         params = {
             'to': to
         }
@@ -405,7 +409,7 @@ class API(object):
         res = self._request('dna_activateInvite', [params])
         return res.json().get('result')
 
-    def becomeOnline(self, nonce: int = None, epoch: int = None):
+    def becomeOnline(self, nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params['nonce'] = nonce
@@ -414,7 +418,7 @@ class API(object):
         res = self._request('dna_becomeOnline', [params])
         return res.json().get('result')
 
-    def becomeOffline(self, nonce: int = None, epoch: int = None):
+    def becomeOffline(self, nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params['nonce'] = nonce
@@ -423,7 +427,7 @@ class API(object):
         res = self._request('dna_becomeOffline', [params])
         return res.json().get('result')
 
-    def delegate(self, to: str, nonce: int = None, epoch: int = None):
+    def delegate(self, to: str, nonce: int = None, epoch: int = None, raw=False):
         params = {
             'to': to
         }
@@ -434,7 +438,7 @@ class API(object):
         res = self._request('dna_delegate', [params])
         return res.json().get('result')
 
-    def undelegate(self,nonce: int = None, epoch: int = None):
+    def undelegate(self,nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params['nonce'] = nonce
@@ -443,7 +447,7 @@ class API(object):
         res = self._request('dna_delegate', [params])
         return res.json().get('result')
     
-    def killDelegator(self, to: str, nonce: int = None, epoch: int = None):
+    def killDelegator(self, to: str, nonce: int = None, epoch: int = None, raw=False):
         params = {
             'to': to
         }
@@ -454,7 +458,7 @@ class API(object):
         res = self._request('dna_killDelegator', [params])
         return res.json().get('result')
 
-    def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None):
+    def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False):
         params = {
             'from': from_,
             'to': to,
@@ -466,4 +470,65 @@ class API(object):
         if epoch:
             params['epoch'] = epoch
         res = self._request('dna_sendTransaction', [params])
+        return res.json().get('result')
+
+    def getEpoch(self, raw=False):
+        res = self._request('dna_epoch')
+        if raw:
+            return res.json()
+        return Epoch(**res.json().get('result'))
+
+    def getCeremonyIntervals(self, raw=False):
+        res = self._request('dna_ceremonyIntervals')
+        if raw:
+            return res.json()
+        return CeremonyIntervals(**res.json().get('result'))
+    
+    def exportKey(self, password, raw=False):
+        res = self._request('dna_exportKey', [password])
+        if raw:
+            return res.json()
+        return CeremonyIntervals(**res.json().get('result'))
+    
+    def burnDna(self, from_: str, amount: float, key: str = None, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False):
+        params = {
+            'from': from_,
+            'amount': amount,
+            'key': key,
+            'max_fee': max_fee,
+            'nonce': nonce,
+            'epoch': epoch
+        }
+        res = self._request('dna_burn', [params])
+        if raw:
+            return res.json()
+        return res.json().get('result')
+    
+    def changeProfile(self, info: str = None, nickname: str = None, max_fee: float = None, raw=False):
+        params = {
+            'info': info,
+            'nickname': nickname,
+            'max_fee': max_fee
+        }
+        res = self._request('dna_changeProfile', [params])
+        if raw:
+            return res.json()
+        return ProfileTxn(**res.json().get('result'))
+    
+    def getProfile(self, address: str, raw = False):
+        res = self._request('dna_profile', [address])
+        if raw:
+            return res.json()
+        return Profile(**res.json().get('result'))
+
+    def activateRandomInvite(self, key: str, nonce: int = None, epoch: int = None, raw = False):
+        res = self._request('dna_activateInviteToRandAddr', [{'key': key, 'nonce': nonce, 'epoch': epoch}])
+        if raw:
+            return res.json()
+        return RandomInviteTxn(**res.json().get('result'))
+
+    def storeToIpfs(self, cid: str, nonce: int = None, epoch: int = None, raw=False):
+        res = self._request('dna_storeToIpfs', [{'cid': cid, 'nonce': nonce, 'epoch': epoch}])
+        if raw:
+            return res.json()
         return res.json().get('result')

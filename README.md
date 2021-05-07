@@ -22,8 +22,10 @@ python3 setup.py install
 
 - [X] IPFS API ✔
 - [X] Accounts API ✔
+- [X] Blockchain API ✔
 - [X] DNA API ✔
-- [ ] Blockchain API (Partially Complete) 💻
+- [ ] Net API ❌
+- [ ] Flip API ❌
 - [ ] Contracts API ❌
 
 # Usage

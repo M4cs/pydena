@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List
+from datetime import datetime
 
 class Invitee(BaseModel):
     txHash: str
@@ -38,3 +39,34 @@ class Identity(BaseModel):
 
 class State(BaseModel):
     name: str = None
+
+class Epoch(BaseModel):
+    epoch: int = None
+    nextValidation: datetime = None
+    currentPeriod: str = None
+    currentValidationStart: datetime = None
+
+class CeremonyIntervals(BaseModel):
+    flipLotteryDuration: int = None
+    shortSessionDuration: int = None
+    longSessionDuration: int = None
+
+    class Config:
+        fields = {
+            'flipLotteryDuration': 'FlipLotteryDuration',
+            'shortSessionDuration': 'ShortSessionDuration',
+            'longSessionDuration': 'LongSessionDuration'
+        }
+
+class ProfileTxn(BaseModel):
+    txHash: str
+    hash: str
+
+class Profile(BaseModel):
+    info: str
+    nickname: str
+
+class RandomInviteTxn(BaseModel):
+    hash: str
+    address: str
+    key: str
