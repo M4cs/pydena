@@ -20,6 +20,8 @@ python3 setup.py install
 
 # Roadmap
 
+**RPC APIs:**
+
 - [X] IPFS API ✔
 - [X] Accounts API ✔
 - [X] Blockchain API ✔
@@ -27,6 +29,10 @@ python3 setup.py install
 - [ ] Net API ❌
 - [ ] Flip API ❌
 - [ ] Contracts API ❌
+
+**Idena API:**
+
+This will be worked on after RPC. Version 2 will migrate API -> pydena.RPC. pydena.API will become the http API for the explorer.
 
 # Usage
 
