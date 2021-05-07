@@ -2,7 +2,7 @@
 
 Unofficial Python API for [idena-go RPC](https://github.com/idena-network/idena-go)
 
-Help Support Me by Donating iDNA to My Address [Here](dna://send/v1?address=0x4206eab8425b662eeb603875cbbc9c18b663d214&amount=1.0)
+Help Support Me by Donating iDNA to My Address <a href='dna://send/v1?address=0x4206eab8425b662eeb603875cbbc9c18b663d214&amount=1.0'>Here</a>
 
 # Requirements
 
