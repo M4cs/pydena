@@ -28,6 +28,7 @@
 </summary>
 <pre><code class="python">from pydantic import BaseModel
 from typing import List
+from datetime import datetime
 
 class Invitee(BaseModel):
     txHash: str
@@ -65,7 +66,38 @@ class Identity(BaseModel):
     isPool: bool = False
 
 class State(BaseModel):
-    name: str = None</code></pre>
+    name: str = None
+
+class Epoch(BaseModel):
+    epoch: int = None
+    nextValidation: datetime = None
+    currentPeriod: str = None
+    currentValidationStart: datetime = None
+
+class CeremonyIntervals(BaseModel):
+    flipLotteryDuration: int = None
+    shortSessionDuration: int = None
+    longSessionDuration: int = None
+
+    class Config:
+        fields = {
+            &#39;flipLotteryDuration&#39;: &#39;FlipLotteryDuration&#39;,
+            &#39;shortSessionDuration&#39;: &#39;ShortSessionDuration&#39;,
+            &#39;longSessionDuration&#39;: &#39;LongSessionDuration&#39;
+        }
+
+class ProfileTxn(BaseModel):
+    txHash: str
+    hash: str
+
+class Profile(BaseModel):
+    info: str
+    nickname: str
+
+class RandomInviteTxn(BaseModel):
+    hash: str
+    address: str
+    key: str</code></pre>
 </details>
 </section>
 <section>
@@ -77,6 +109,96 @@ class State(BaseModel):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="pydena.models.dna.CeremonyIntervals"><code class="flex name class">
+<span>class <span class="ident">CeremonyIntervals</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises ValidationError if the input data cannot be parsed to form a valid model.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CeremonyIntervals(BaseModel):
+    flipLotteryDuration: int = None
+    shortSessionDuration: int = None
+    longSessionDuration: int = None
+
+    class Config:
+        fields = {
+            &#39;flipLotteryDuration&#39;: &#39;FlipLotteryDuration&#39;,
+            &#39;shortSessionDuration&#39;: &#39;ShortSessionDuration&#39;,
+            &#39;longSessionDuration&#39;: &#39;LongSessionDuration&#39;
+        }</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+<li>pydantic.utils.Representation</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pydena.models.dna.CeremonyIntervals.Config"><code class="name">var <span class="ident">Config</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.CeremonyIntervals.flipLotteryDuration"><code class="name">var <span class="ident">flipLotteryDuration</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.CeremonyIntervals.longSessionDuration"><code class="name">var <span class="ident">longSessionDuration</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.CeremonyIntervals.shortSessionDuration"><code class="name">var <span class="ident">shortSessionDuration</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pydena.models.dna.Epoch"><code class="flex name class">
+<span>class <span class="ident">Epoch</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises ValidationError if the input data cannot be parsed to form a valid model.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Epoch(BaseModel):
+    epoch: int = None
+    nextValidation: datetime = None
+    currentPeriod: str = None
+    currentValidationStart: datetime = None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+<li>pydantic.utils.Representation</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pydena.models.dna.Epoch.currentPeriod"><code class="name">var <span class="ident">currentPeriod</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.Epoch.currentValidationStart"><code class="name">var <span class="ident">currentValidationStart</span> : datetime.datetime</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.Epoch.epoch"><code class="name">var <span class="ident">epoch</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.Epoch.nextValidation"><code class="name">var <span class="ident">nextValidation</span> : datetime.datetime</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="pydena.models.dna.Identity"><code class="flex name class">
 <span>class <span class="ident">Identity</span></span>
 <span>(</span><span>**data: Any)</span>
@@ -260,6 +382,107 @@ class State(BaseModel):
 </dd>
 </dl>
 </dd>
+<dt id="pydena.models.dna.Profile"><code class="flex name class">
+<span>class <span class="ident">Profile</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises ValidationError if the input data cannot be parsed to form a valid model.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Profile(BaseModel):
+    info: str
+    nickname: str</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+<li>pydantic.utils.Representation</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pydena.models.dna.Profile.info"><code class="name">var <span class="ident">info</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.Profile.nickname"><code class="name">var <span class="ident">nickname</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pydena.models.dna.ProfileTxn"><code class="flex name class">
+<span>class <span class="ident">ProfileTxn</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises ValidationError if the input data cannot be parsed to form a valid model.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ProfileTxn(BaseModel):
+    txHash: str
+    hash: str</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+<li>pydantic.utils.Representation</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pydena.models.dna.ProfileTxn.hash"><code class="name">var <span class="ident">hash</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.ProfileTxn.txHash"><code class="name">var <span class="ident">txHash</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pydena.models.dna.RandomInviteTxn"><code class="flex name class">
+<span>class <span class="ident">RandomInviteTxn</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises ValidationError if the input data cannot be parsed to form a valid model.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RandomInviteTxn(BaseModel):
+    hash: str
+    address: str
+    key: str</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+<li>pydantic.utils.Representation</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pydena.models.dna.RandomInviteTxn.address"><code class="name">var <span class="ident">address</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.RandomInviteTxn.hash"><code class="name">var <span class="ident">hash</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pydena.models.dna.RandomInviteTxn.key"><code class="name">var <span class="ident">key</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="pydena.models.dna.State"><code class="flex name class">
 <span>class <span class="ident">State</span></span>
 <span>(</span><span>**data: Any)</span>
@@ -304,6 +527,24 @@ class State(BaseModel):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
+<h4><code><a title="pydena.models.dna.CeremonyIntervals" href="#pydena.models.dna.CeremonyIntervals">CeremonyIntervals</a></code></h4>
+<ul class="">
+<li><code><a title="pydena.models.dna.CeremonyIntervals.Config" href="#pydena.models.dna.CeremonyIntervals.Config">Config</a></code></li>
+<li><code><a title="pydena.models.dna.CeremonyIntervals.flipLotteryDuration" href="#pydena.models.dna.CeremonyIntervals.flipLotteryDuration">flipLotteryDuration</a></code></li>
+<li><code><a title="pydena.models.dna.CeremonyIntervals.longSessionDuration" href="#pydena.models.dna.CeremonyIntervals.longSessionDuration">longSessionDuration</a></code></li>
+<li><code><a title="pydena.models.dna.CeremonyIntervals.shortSessionDuration" href="#pydena.models.dna.CeremonyIntervals.shortSessionDuration">shortSessionDuration</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pydena.models.dna.Epoch" href="#pydena.models.dna.Epoch">Epoch</a></code></h4>
+<ul class="">
+<li><code><a title="pydena.models.dna.Epoch.currentPeriod" href="#pydena.models.dna.Epoch.currentPeriod">currentPeriod</a></code></li>
+<li><code><a title="pydena.models.dna.Epoch.currentValidationStart" href="#pydena.models.dna.Epoch.currentValidationStart">currentValidationStart</a></code></li>
+<li><code><a title="pydena.models.dna.Epoch.epoch" href="#pydena.models.dna.Epoch.epoch">epoch</a></code></li>
+<li><code><a title="pydena.models.dna.Epoch.nextValidation" href="#pydena.models.dna.Epoch.nextValidation">nextValidation</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pydena.models.dna.Identity" href="#pydena.models.dna.Identity">Identity</a></code></h4>
 <ul class="">
 <li><code><a title="pydena.models.dna.Identity.address" href="#pydena.models.dna.Identity.address">address</a></code></li>
@@ -338,6 +579,28 @@ class State(BaseModel):
 <li><code><a title="pydena.models.dna.Invitee.Config" href="#pydena.models.dna.Invitee.Config">Config</a></code></li>
 <li><code><a title="pydena.models.dna.Invitee.address" href="#pydena.models.dna.Invitee.address">address</a></code></li>
 <li><code><a title="pydena.models.dna.Invitee.txHash" href="#pydena.models.dna.Invitee.txHash">txHash</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pydena.models.dna.Profile" href="#pydena.models.dna.Profile">Profile</a></code></h4>
+<ul class="">
+<li><code><a title="pydena.models.dna.Profile.info" href="#pydena.models.dna.Profile.info">info</a></code></li>
+<li><code><a title="pydena.models.dna.Profile.nickname" href="#pydena.models.dna.Profile.nickname">nickname</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pydena.models.dna.ProfileTxn" href="#pydena.models.dna.ProfileTxn">ProfileTxn</a></code></h4>
+<ul class="">
+<li><code><a title="pydena.models.dna.ProfileTxn.hash" href="#pydena.models.dna.ProfileTxn.hash">hash</a></code></li>
+<li><code><a title="pydena.models.dna.ProfileTxn.txHash" href="#pydena.models.dna.ProfileTxn.txHash">txHash</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pydena.models.dna.RandomInviteTxn" href="#pydena.models.dna.RandomInviteTxn">RandomInviteTxn</a></code></h4>
+<ul class="">
+<li><code><a title="pydena.models.dna.RandomInviteTxn.address" href="#pydena.models.dna.RandomInviteTxn.address">address</a></code></li>
+<li><code><a title="pydena.models.dna.RandomInviteTxn.hash" href="#pydena.models.dna.RandomInviteTxn.hash">hash</a></code></li>
+<li><code><a title="pydena.models.dna.RandomInviteTxn.key" href="#pydena.models.dna.RandomInviteTxn.key">key</a></code></li>
 </ul>
 </li>
 <li>

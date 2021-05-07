@@ -26,7 +26,9 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from requests import Session
+<pre><code class="python">from pydena.exceptions import RPCError
+from pydena.models.dna import CeremonyIntervals, Epoch, Profile, ProfileTxn, RandomInviteTxn
+from requests import Session
 from pydena.models import AddressTxns, Block, Mempool, Sync, Transaction, BurntCoins, FlipKeyword, Identity, State, Accounts
 
 class API(object):
@@ -51,6 +53,8 @@ class API(object):
         payload[&#39;method&#39;] = method
         res = self.session.get(self.host, json=payload, timeout=30)
         self.current_id += 1
+        if res.get(&#39;error&#39;):
+            raise RPCError(res.json())
         return res
 
     def getLastBlock(self, raw=False):
@@ -394,7 +398,7 @@ class API(object):
             return res.json()
         return res.json().get(&#39;result&#39;)
 
-    def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None):
+    def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;from&#39;: from_,
             &#39;to&#39;: to,
@@ -408,7 +412,7 @@ class API(object):
         res = self._request(&#39;dna_sendTransaction&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None):
+    def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;to&#39;: to,
             &#39;amount&#39;: amount
@@ -420,7 +424,7 @@ class API(object):
         res = self._request(&#39;dna_sendInvite&#39;, [params])
         return res.json().get(&#39;result&#39;)
     
-    def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None):
+    def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;to&#39;: to
         }
@@ -433,7 +437,7 @@ class API(object):
         res = self._request(&#39;dna_activateInvite&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def becomeOnline(self, nonce: int = None, epoch: int = None):
+    def becomeOnline(self, nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params[&#39;nonce&#39;] = nonce
@@ -442,7 +446,7 @@ class API(object):
         res = self._request(&#39;dna_becomeOnline&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def becomeOffline(self, nonce: int = None, epoch: int = None):
+    def becomeOffline(self, nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params[&#39;nonce&#39;] = nonce
@@ -451,7 +455,7 @@ class API(object):
         res = self._request(&#39;dna_becomeOffline&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def delegate(self, to: str, nonce: int = None, epoch: int = None):
+    def delegate(self, to: str, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;to&#39;: to
         }
@@ -462,7 +466,7 @@ class API(object):
         res = self._request(&#39;dna_delegate&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def undelegate(self,nonce: int = None, epoch: int = None):
+    def undelegate(self,nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params[&#39;nonce&#39;] = nonce
@@ -471,7 +475,7 @@ class API(object):
         res = self._request(&#39;dna_delegate&#39;, [params])
         return res.json().get(&#39;result&#39;)
     
-    def killDelegator(self, to: str, nonce: int = None, epoch: int = None):
+    def killDelegator(self, to: str, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;to&#39;: to
         }
@@ -482,7 +486,7 @@ class API(object):
         res = self._request(&#39;dna_killDelegator&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None):
+    def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;from&#39;: from_,
             &#39;to&#39;: to,
@@ -494,6 +498,67 @@ class API(object):
         if epoch:
             params[&#39;epoch&#39;] = epoch
         res = self._request(&#39;dna_sendTransaction&#39;, [params])
+        return res.json().get(&#39;result&#39;)
+
+    def getEpoch(self, raw=False):
+        res = self._request(&#39;dna_epoch&#39;)
+        if raw:
+            return res.json()
+        return Epoch(**res.json().get(&#39;result&#39;))
+
+    def getCeremonyIntervals(self, raw=False):
+        res = self._request(&#39;dna_ceremonyIntervals&#39;)
+        if raw:
+            return res.json()
+        return CeremonyIntervals(**res.json().get(&#39;result&#39;))
+    
+    def exportKey(self, password, raw=False):
+        res = self._request(&#39;dna_exportKey&#39;, [password])
+        if raw:
+            return res.json()
+        return CeremonyIntervals(**res.json().get(&#39;result&#39;))
+    
+    def burnDna(self, from_: str, amount: float, key: str = None, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False):
+        params = {
+            &#39;from&#39;: from_,
+            &#39;amount&#39;: amount,
+            &#39;key&#39;: key,
+            &#39;max_fee&#39;: max_fee,
+            &#39;nonce&#39;: nonce,
+            &#39;epoch&#39;: epoch
+        }
+        res = self._request(&#39;dna_burn&#39;, [params])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+    
+    def changeProfile(self, info: str = None, nickname: str = None, max_fee: float = None, raw=False):
+        params = {
+            &#39;info&#39;: info,
+            &#39;nickname&#39;: nickname,
+            &#39;max_fee&#39;: max_fee
+        }
+        res = self._request(&#39;dna_changeProfile&#39;, [params])
+        if raw:
+            return res.json()
+        return ProfileTxn(**res.json().get(&#39;result&#39;))
+    
+    def getProfile(self, address: str, raw = False):
+        res = self._request(&#39;dna_profile&#39;, [address])
+        if raw:
+            return res.json()
+        return Profile(**res.json().get(&#39;result&#39;))
+
+    def activateRandomInvite(self, key: str, nonce: int = None, epoch: int = None, raw = False):
+        res = self._request(&#39;dna_activateInviteToRandAddr&#39;, [{&#39;key&#39;: key, &#39;nonce&#39;: nonce, &#39;epoch&#39;: epoch}])
+        if raw:
+            return res.json()
+        return RandomInviteTxn(**res.json().get(&#39;result&#39;))
+
+    def storeToIpfs(self, cid: str, nonce: int = None, epoch: int = None, raw=False):
+        res = self._request(&#39;dna_storeToIpfs&#39;, [{&#39;cid&#39;: cid, &#39;nonce&#39;: nonce, &#39;epoch&#39;: epoch}])
+        if raw:
+            return res.json()
         return res.json().get(&#39;result&#39;)</code></pre>
 </details>
 </section>
@@ -538,6 +603,8 @@ class API(object):
         payload[&#39;method&#39;] = method
         res = self.session.get(self.host, json=payload, timeout=30)
         self.current_id += 1
+        if res.get(&#39;error&#39;):
+            raise RPCError(res.json())
         return res
 
     def getLastBlock(self, raw=False):
@@ -881,7 +948,7 @@ class API(object):
             return res.json()
         return res.json().get(&#39;result&#39;)
 
-    def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None):
+    def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;from&#39;: from_,
             &#39;to&#39;: to,
@@ -895,7 +962,7 @@ class API(object):
         res = self._request(&#39;dna_sendTransaction&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None):
+    def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;to&#39;: to,
             &#39;amount&#39;: amount
@@ -907,7 +974,7 @@ class API(object):
         res = self._request(&#39;dna_sendInvite&#39;, [params])
         return res.json().get(&#39;result&#39;)
     
-    def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None):
+    def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;to&#39;: to
         }
@@ -920,7 +987,7 @@ class API(object):
         res = self._request(&#39;dna_activateInvite&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def becomeOnline(self, nonce: int = None, epoch: int = None):
+    def becomeOnline(self, nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params[&#39;nonce&#39;] = nonce
@@ -929,7 +996,7 @@ class API(object):
         res = self._request(&#39;dna_becomeOnline&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def becomeOffline(self, nonce: int = None, epoch: int = None):
+    def becomeOffline(self, nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params[&#39;nonce&#39;] = nonce
@@ -938,7 +1005,7 @@ class API(object):
         res = self._request(&#39;dna_becomeOffline&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def delegate(self, to: str, nonce: int = None, epoch: int = None):
+    def delegate(self, to: str, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;to&#39;: to
         }
@@ -949,7 +1016,7 @@ class API(object):
         res = self._request(&#39;dna_delegate&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def undelegate(self,nonce: int = None, epoch: int = None):
+    def undelegate(self,nonce: int = None, epoch: int = None, raw=False):
         params = {}
         if nonce:
             params[&#39;nonce&#39;] = nonce
@@ -958,7 +1025,7 @@ class API(object):
         res = self._request(&#39;dna_delegate&#39;, [params])
         return res.json().get(&#39;result&#39;)
     
-    def killDelegator(self, to: str, nonce: int = None, epoch: int = None):
+    def killDelegator(self, to: str, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;to&#39;: to
         }
@@ -969,7 +1036,7 @@ class API(object):
         res = self._request(&#39;dna_killDelegator&#39;, [params])
         return res.json().get(&#39;result&#39;)
 
-    def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None):
+    def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False):
         params = {
             &#39;from&#39;: from_,
             &#39;to&#39;: to,
@@ -981,12 +1048,73 @@ class API(object):
         if epoch:
             params[&#39;epoch&#39;] = epoch
         res = self._request(&#39;dna_sendTransaction&#39;, [params])
+        return res.json().get(&#39;result&#39;)
+
+    def getEpoch(self, raw=False):
+        res = self._request(&#39;dna_epoch&#39;)
+        if raw:
+            return res.json()
+        return Epoch(**res.json().get(&#39;result&#39;))
+
+    def getCeremonyIntervals(self, raw=False):
+        res = self._request(&#39;dna_ceremonyIntervals&#39;)
+        if raw:
+            return res.json()
+        return CeremonyIntervals(**res.json().get(&#39;result&#39;))
+    
+    def exportKey(self, password, raw=False):
+        res = self._request(&#39;dna_exportKey&#39;, [password])
+        if raw:
+            return res.json()
+        return CeremonyIntervals(**res.json().get(&#39;result&#39;))
+    
+    def burnDna(self, from_: str, amount: float, key: str = None, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False):
+        params = {
+            &#39;from&#39;: from_,
+            &#39;amount&#39;: amount,
+            &#39;key&#39;: key,
+            &#39;max_fee&#39;: max_fee,
+            &#39;nonce&#39;: nonce,
+            &#39;epoch&#39;: epoch
+        }
+        res = self._request(&#39;dna_burn&#39;, [params])
+        if raw:
+            return res.json()
+        return res.json().get(&#39;result&#39;)
+    
+    def changeProfile(self, info: str = None, nickname: str = None, max_fee: float = None, raw=False):
+        params = {
+            &#39;info&#39;: info,
+            &#39;nickname&#39;: nickname,
+            &#39;max_fee&#39;: max_fee
+        }
+        res = self._request(&#39;dna_changeProfile&#39;, [params])
+        if raw:
+            return res.json()
+        return ProfileTxn(**res.json().get(&#39;result&#39;))
+    
+    def getProfile(self, address: str, raw = False):
+        res = self._request(&#39;dna_profile&#39;, [address])
+        if raw:
+            return res.json()
+        return Profile(**res.json().get(&#39;result&#39;))
+
+    def activateRandomInvite(self, key: str, nonce: int = None, epoch: int = None, raw = False):
+        res = self._request(&#39;dna_activateInviteToRandAddr&#39;, [{&#39;key&#39;: key, &#39;nonce&#39;: nonce, &#39;epoch&#39;: epoch}])
+        if raw:
+            return res.json()
+        return RandomInviteTxn(**res.json().get(&#39;result&#39;))
+
+    def storeToIpfs(self, cid: str, nonce: int = None, epoch: int = None, raw=False):
+        res = self._request(&#39;dna_storeToIpfs&#39;, [{&#39;cid&#39;: cid, &#39;nonce&#39;: nonce, &#39;epoch&#39;: epoch}])
+        if raw:
+            return res.json()
         return res.json().get(&#39;result&#39;)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
 <dt id="pydena.api.API.activateInvite"><code class="name flex">
-<span>def <span class="ident">activateInvite</span></span>(<span>self, to: str, key: str = None, nonce: int = None, epoch: int = None)</span>
+<span>def <span class="ident">activateInvite</span></span>(<span>self, to: str, key: str = None, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -994,7 +1122,7 @@ class API(object):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None):
+<pre><code class="python">def activateInvite(self, to: str, key: str = None, nonce: int = None, epoch: int = None, raw=False):
     params = {
         &#39;to&#39;: to
     }
@@ -1006,6 +1134,22 @@ class API(object):
         params[&#39;epoch&#39;] = epoch
     res = self._request(&#39;dna_activateInvite&#39;, [params])
     return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.API.activateRandomInvite"><code class="name flex">
+<span>def <span class="ident">activateRandomInvite</span></span>(<span>self, key: str, nonce: int = None, epoch: int = None, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def activateRandomInvite(self, key: str, nonce: int = None, epoch: int = None, raw = False):
+    res = self._request(&#39;dna_activateInviteToRandAddr&#39;, [{&#39;key&#39;: key, &#39;nonce&#39;: nonce, &#39;epoch&#39;: epoch}])
+    if raw:
+        return res.json()
+    return RandomInviteTxn(**res.json().get(&#39;result&#39;))</code></pre>
 </details>
 </dd>
 <dt id="pydena.api.API.addAccount"><code class="name flex">
@@ -1073,7 +1217,7 @@ raw(bool1): Return in JSON format. Default: false</p>
 </details>
 </dd>
 <dt id="pydena.api.API.becomeOffline"><code class="name flex">
-<span>def <span class="ident">becomeOffline</span></span>(<span>self, nonce: int = None, epoch: int = None)</span>
+<span>def <span class="ident">becomeOffline</span></span>(<span>self, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1081,7 +1225,7 @@ raw(bool1): Return in JSON format. Default: false</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def becomeOffline(self, nonce: int = None, epoch: int = None):
+<pre><code class="python">def becomeOffline(self, nonce: int = None, epoch: int = None, raw=False):
     params = {}
     if nonce:
         params[&#39;nonce&#39;] = nonce
@@ -1092,7 +1236,7 @@ raw(bool1): Return in JSON format. Default: false</p>
 </details>
 </dd>
 <dt id="pydena.api.API.becomeOnline"><code class="name flex">
-<span>def <span class="ident">becomeOnline</span></span>(<span>self, nonce: int = None, epoch: int = None)</span>
+<span>def <span class="ident">becomeOnline</span></span>(<span>self, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1100,13 +1244,37 @@ raw(bool1): Return in JSON format. Default: false</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def becomeOnline(self, nonce: int = None, epoch: int = None):
+<pre><code class="python">def becomeOnline(self, nonce: int = None, epoch: int = None, raw=False):
     params = {}
     if nonce:
         params[&#39;nonce&#39;] = nonce
     if epoch:
         params[&#39;epoch&#39;] = epoch
     res = self._request(&#39;dna_becomeOnline&#39;, [params])
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.API.burnDna"><code class="name flex">
+<span>def <span class="ident">burnDna</span></span>(<span>self, from_: str, amount: float, key: str = None, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def burnDna(self, from_: str, amount: float, key: str = None, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False):
+    params = {
+        &#39;from&#39;: from_,
+        &#39;amount&#39;: amount,
+        &#39;key&#39;: key,
+        &#39;max_fee&#39;: max_fee,
+        &#39;nonce&#39;: nonce,
+        &#39;epoch&#39;: epoch
+    }
+    res = self._request(&#39;dna_burn&#39;, [params])
+    if raw:
+        return res.json()
     return res.json().get(&#39;result&#39;)</code></pre>
 </details>
 </dd>
@@ -1142,7 +1310,7 @@ raw(bool): Return in JSON format. Default: false</p>
 </details>
 </dd>
 <dt id="pydena.api.API.changeGodAddress"><code class="name flex">
-<span>def <span class="ident">changeGodAddress</span></span>(<span>self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None)</span>
+<span>def <span class="ident">changeGodAddress</span></span>(<span>self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1150,7 +1318,7 @@ raw(bool): Return in JSON format. Default: false</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None):
+<pre><code class="python">def changeGodAddress(self, from_: str, to: str, max_fee: float = None, nonce: int = None, epoch: int = None, raw=False):
     params = {
         &#39;from&#39;: from_,
         &#39;to&#39;: to,
@@ -1163,6 +1331,27 @@ raw(bool): Return in JSON format. Default: false</p>
         params[&#39;epoch&#39;] = epoch
     res = self._request(&#39;dna_sendTransaction&#39;, [params])
     return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.API.changeProfile"><code class="name flex">
+<span>def <span class="ident">changeProfile</span></span>(<span>self, info: str = None, nickname: str = None, max_fee: float = None, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def changeProfile(self, info: str = None, nickname: str = None, max_fee: float = None, raw=False):
+    params = {
+        &#39;info&#39;: info,
+        &#39;nickname&#39;: nickname,
+        &#39;max_fee&#39;: max_fee
+    }
+    res = self._request(&#39;dna_changeProfile&#39;, [params])
+    if raw:
+        return res.json()
+    return ProfileTxn(**res.json().get(&#39;result&#39;))</code></pre>
 </details>
 </dd>
 <dt id="pydena.api.API.checkSync"><code class="name flex">
@@ -1195,7 +1384,7 @@ raw(bool): Return in JSON format. Default: false</p>
 </details>
 </dd>
 <dt id="pydena.api.API.delegate"><code class="name flex">
-<span>def <span class="ident">delegate</span></span>(<span>self, to: str, nonce: int = None, epoch: int = None)</span>
+<span>def <span class="ident">delegate</span></span>(<span>self, to: str, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1203,7 +1392,7 @@ raw(bool): Return in JSON format. Default: false</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def delegate(self, to: str, nonce: int = None, epoch: int = None):
+<pre><code class="python">def delegate(self, to: str, nonce: int = None, epoch: int = None, raw=False):
     params = {
         &#39;to&#39;: to
     }
@@ -1213,6 +1402,22 @@ raw(bool): Return in JSON format. Default: false</p>
         params[&#39;epoch&#39;] = epoch
     res = self._request(&#39;dna_delegate&#39;, [params])
     return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.API.exportKey"><code class="name flex">
+<span>def <span class="ident">exportKey</span></span>(<span>self, password, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exportKey(self, password, raw=False):
+    res = self._request(&#39;dna_exportKey&#39;, [password])
+    if raw:
+        return res.json()
+    return CeremonyIntervals(**res.json().get(&#39;result&#39;))</code></pre>
 </details>
 </dd>
 <dt id="pydena.api.API.getAccounts"><code class="name flex">
@@ -1373,6 +1578,22 @@ raw(bool): Return in JSON format. Default: false</p>
     return BurntCoins(**res.json().get(&#39;result&#39;))</code></pre>
 </details>
 </dd>
+<dt id="pydena.api.API.getCeremonyIntervals"><code class="name flex">
+<span>def <span class="ident">getCeremonyIntervals</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getCeremonyIntervals(self, raw=False):
+    res = self._request(&#39;dna_ceremonyIntervals&#39;)
+    if raw:
+        return res.json()
+    return CeremonyIntervals(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
 <dt id="pydena.api.API.getCoinbaseAddress"><code class="name flex">
 <span>def <span class="ident">getCoinbaseAddress</span></span>(<span>self, raw=False)</span>
 </code></dt>
@@ -1429,6 +1650,22 @@ raw(bool): Return in JSON format. Default: false</p>
     if raw:
         return res.json()
     return State(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.API.getEpoch"><code class="name flex">
+<span>def <span class="ident">getEpoch</span></span>(<span>self, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getEpoch(self, raw=False):
+    res = self._request(&#39;dna_epoch&#39;)
+    if raw:
+        return res.json()
+    return Epoch(**res.json().get(&#39;result&#39;))</code></pre>
 </details>
 </dd>
 <dt id="pydena.api.API.getFlipKeyword"><code class="name flex">
@@ -1642,6 +1879,22 @@ raw(bool): Return in JSON format. Default: false</p>
     return AddressTxns(**res.json().get(&#39;result&#39;))</code></pre>
 </details>
 </dd>
+<dt id="pydena.api.API.getProfile"><code class="name flex">
+<span>def <span class="ident">getProfile</span></span>(<span>self, address: str, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getProfile(self, address: str, raw = False):
+    res = self._request(&#39;dna_profile&#39;, [address])
+    if raw:
+        return res.json()
+    return Profile(**res.json().get(&#39;result&#39;))</code></pre>
+</details>
+</dd>
 <dt id="pydena.api.API.getTransaction"><code class="name flex">
 <span>def <span class="ident">getTransaction</span></span>(<span>self, hash: str, raw=False)</span>
 </code></dt>
@@ -1674,7 +1927,7 @@ raw(bool): Return in JSON format. Default: false</p>
 </details>
 </dd>
 <dt id="pydena.api.API.killDelegator"><code class="name flex">
-<span>def <span class="ident">killDelegator</span></span>(<span>self, to: str, nonce: int = None, epoch: int = None)</span>
+<span>def <span class="ident">killDelegator</span></span>(<span>self, to: str, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1682,7 +1935,7 @@ raw(bool): Return in JSON format. Default: false</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def killDelegator(self, to: str, nonce: int = None, epoch: int = None):
+<pre><code class="python">def killDelegator(self, to: str, nonce: int = None, epoch: int = None, raw=False):
     params = {
         &#39;to&#39;: to
     }
@@ -1726,7 +1979,7 @@ raw(bool): Return in JSON format. Default: false</p>
 </details>
 </dd>
 <dt id="pydena.api.API.sendDna"><code class="name flex">
-<span>def <span class="ident">sendDna</span></span>(<span>self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None)</span>
+<span>def <span class="ident">sendDna</span></span>(<span>self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1734,7 +1987,7 @@ raw(bool): Return in JSON format. Default: false</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None):
+<pre><code class="python">def sendDna(self, from_: str, to: str, amount: float, max_fee: float, nonce: int = None, epoch: int = None, raw=False):
     params = {
         &#39;from&#39;: from_,
         &#39;to&#39;: to,
@@ -1750,7 +2003,7 @@ raw(bool): Return in JSON format. Default: false</p>
 </details>
 </dd>
 <dt id="pydena.api.API.sendInvite"><code class="name flex">
-<span>def <span class="ident">sendInvite</span></span>(<span>self, to: str, amount: int, nonce: int = None, epoch: int = None)</span>
+<span>def <span class="ident">sendInvite</span></span>(<span>self, to: str, amount: int, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1758,7 +2011,7 @@ raw(bool): Return in JSON format. Default: false</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None):
+<pre><code class="python">def sendInvite(self, to: str, amount: int, nonce: int = None, epoch: int = None, raw=False):
     params = {
         &#39;to&#39;: to,
         &#39;amount&#39;: amount
@@ -1771,8 +2024,8 @@ raw(bool): Return in JSON format. Default: false</p>
     return res.json().get(&#39;result&#39;)</code></pre>
 </details>
 </dd>
-<dt id="pydena.api.API.undelegate"><code class="name flex">
-<span>def <span class="ident">undelegate</span></span>(<span>self, nonce: int = None, epoch: int = None)</span>
+<dt id="pydena.api.API.storeToIpfs"><code class="name flex">
+<span>def <span class="ident">storeToIpfs</span></span>(<span>self, cid: str, nonce: int = None, epoch: int = None, raw=False)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1780,7 +2033,23 @@ raw(bool): Return in JSON format. Default: false</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def undelegate(self,nonce: int = None, epoch: int = None):
+<pre><code class="python">def storeToIpfs(self, cid: str, nonce: int = None, epoch: int = None, raw=False):
+    res = self._request(&#39;dna_storeToIpfs&#39;, [{&#39;cid&#39;: cid, &#39;nonce&#39;: nonce, &#39;epoch&#39;: epoch}])
+    if raw:
+        return res.json()
+    return res.json().get(&#39;result&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pydena.api.API.undelegate"><code class="name flex">
+<span>def <span class="ident">undelegate</span></span>(<span>self, nonce: int = None, epoch: int = None, raw=False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def undelegate(self,nonce: int = None, epoch: int = None, raw=False):
     params = {}
     if nonce:
         params[&#39;nonce&#39;] = nonce
@@ -1852,21 +2121,27 @@ raw(bool): Return in JSON format. Default: false</p>
 <h4><code><a title="pydena.api.API" href="#pydena.api.API">API</a></code></h4>
 <ul class="">
 <li><code><a title="pydena.api.API.activateInvite" href="#pydena.api.API.activateInvite">activateInvite</a></code></li>
+<li><code><a title="pydena.api.API.activateRandomInvite" href="#pydena.api.API.activateRandomInvite">activateRandomInvite</a></code></li>
 <li><code><a title="pydena.api.API.addAccount" href="#pydena.api.API.addAccount">addAccount</a></code></li>
 <li><code><a title="pydena.api.API.addDataToIpfs" href="#pydena.api.API.addDataToIpfs">addDataToIpfs</a></code></li>
 <li><code><a title="pydena.api.API.becomeOffline" href="#pydena.api.API.becomeOffline">becomeOffline</a></code></li>
 <li><code><a title="pydena.api.API.becomeOnline" href="#pydena.api.API.becomeOnline">becomeOnline</a></code></li>
+<li><code><a title="pydena.api.API.burnDna" href="#pydena.api.API.burnDna">burnDna</a></code></li>
 <li><code><a title="pydena.api.API.calculateIpfsCid" href="#pydena.api.API.calculateIpfsCid">calculateIpfsCid</a></code></li>
 <li><code><a title="pydena.api.API.changeGodAddress" href="#pydena.api.API.changeGodAddress">changeGodAddress</a></code></li>
+<li><code><a title="pydena.api.API.changeProfile" href="#pydena.api.API.changeProfile">changeProfile</a></code></li>
 <li><code><a title="pydena.api.API.checkSync" href="#pydena.api.API.checkSync">checkSync</a></code></li>
 <li><code><a title="pydena.api.API.delegate" href="#pydena.api.API.delegate">delegate</a></code></li>
+<li><code><a title="pydena.api.API.exportKey" href="#pydena.api.API.exportKey">exportKey</a></code></li>
 <li><code><a title="pydena.api.API.getAccounts" href="#pydena.api.API.getAccounts">getAccounts</a></code></li>
 <li><code><a title="pydena.api.API.getAddressTxns" href="#pydena.api.API.getAddressTxns">getAddressTxns</a></code></li>
 <li><code><a title="pydena.api.API.getBlockByHash" href="#pydena.api.API.getBlockByHash">getBlockByHash</a></code></li>
 <li><code><a title="pydena.api.API.getBlockByHeight" href="#pydena.api.API.getBlockByHeight">getBlockByHeight</a></code></li>
 <li><code><a title="pydena.api.API.getBurntCoins" href="#pydena.api.API.getBurntCoins">getBurntCoins</a></code></li>
+<li><code><a title="pydena.api.API.getCeremonyIntervals" href="#pydena.api.API.getCeremonyIntervals">getCeremonyIntervals</a></code></li>
 <li><code><a title="pydena.api.API.getCoinbaseAddress" href="#pydena.api.API.getCoinbaseAddress">getCoinbaseAddress</a></code></li>
 <li><code><a title="pydena.api.API.getCurrentProcess" href="#pydena.api.API.getCurrentProcess">getCurrentProcess</a></code></li>
+<li><code><a title="pydena.api.API.getEpoch" href="#pydena.api.API.getEpoch">getEpoch</a></code></li>
 <li><code><a title="pydena.api.API.getFlipKeyword" href="#pydena.api.API.getFlipKeyword">getFlipKeyword</a></code></li>
 <li><code><a title="pydena.api.API.getIdentities" href="#pydena.api.API.getIdentities">getIdentities</a></code></li>
 <li><code><a title="pydena.api.API.getIdentity" href="#pydena.api.API.getIdentity">getIdentity</a></code></li>
@@ -1874,11 +2149,13 @@ raw(bool): Return in JSON format. Default: false</p>
 <li><code><a title="pydena.api.API.getLastBlock" href="#pydena.api.API.getLastBlock">getLastBlock</a></code></li>
 <li><code><a title="pydena.api.API.getMempool" href="#pydena.api.API.getMempool">getMempool</a></code></li>
 <li><code><a title="pydena.api.API.getPendingAddressTxns" href="#pydena.api.API.getPendingAddressTxns">getPendingAddressTxns</a></code></li>
+<li><code><a title="pydena.api.API.getProfile" href="#pydena.api.API.getProfile">getProfile</a></code></li>
 <li><code><a title="pydena.api.API.getTransaction" href="#pydena.api.API.getTransaction">getTransaction</a></code></li>
 <li><code><a title="pydena.api.API.killDelegator" href="#pydena.api.API.killDelegator">killDelegator</a></code></li>
 <li><code><a title="pydena.api.API.lockAccount" href="#pydena.api.API.lockAccount">lockAccount</a></code></li>
 <li><code><a title="pydena.api.API.sendDna" href="#pydena.api.API.sendDna">sendDna</a></code></li>
 <li><code><a title="pydena.api.API.sendInvite" href="#pydena.api.API.sendInvite">sendInvite</a></code></li>
+<li><code><a title="pydena.api.API.storeToIpfs" href="#pydena.api.API.storeToIpfs">storeToIpfs</a></code></li>
 <li><code><a title="pydena.api.API.undelegate" href="#pydena.api.API.undelegate">undelegate</a></code></li>
 <li><code><a title="pydena.api.API.unlockAccount" href="#pydena.api.API.unlockAccount">unlockAccount</a></code></li>
 </ul>
