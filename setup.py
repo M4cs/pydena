@@ -5,13 +5,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='pydena',
-    version='1.0.2',
+    version='1.0.3',
     author='Max Bridgland',
     author_email='me@maxbridgland.com',
-    description='Unofficial idena-go RPC API Python Wrapper',
+    description='Unofficial Idena Network and Explorer API Wrapper',
     long_description=open('README.md', 'r', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/M4cs/BabySploit',
+    url='https://github.com/M4cs/pydena',
     packages=find_packages(include=['pydena','pydena.*']),
     install_requires=[
         'requests',

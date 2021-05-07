@@ -56,6 +56,9 @@ api.getCoinbaseAddress()
 # Get Last Block:
 api.getLastBlock()
 
+# To get JSON responses, just pass `raw=True` to any API/RPC Call
+api.getLastBlock(raw=True)
+
 # See all in documentation below!
 ```
 
