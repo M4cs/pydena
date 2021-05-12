@@ -4,9 +4,9 @@ from requests import Session
 from pydena.models import AddressTxns, Block, Mempool, Sync, Transaction, BurntCoins, FlipKeyword, Identity, State, Accounts
 
 class API(object):
-    def __init__(self, host="http://localhost:9009", apikey=""):
+    def __init__(self, host="http://localhost:9009", apikey=None):
         self.host = host
-        if not host.startswith('http://'):
+        if not host.startswith('http://') and not host.startswith('https://'):
             self.host = 'http://' + host
         self.apikey = apikey
         self.session = Session()
@@ -25,7 +25,7 @@ class API(object):
         payload['method'] = method
         res = self.session.get(self.host, json=payload, timeout=30)
         self.current_id += 1
-        if res.get('error'):
+        if res.json().get('error'):
             raise RPCError(res.json())
         return res
 

@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pydena',
-    version='1.0.3',
+    version='1.1.1',
     author='Max Bridgland',
     author_email='me@maxbridgland.com',
     description='Unofficial Idena Network and Explorer API Wrapper',
